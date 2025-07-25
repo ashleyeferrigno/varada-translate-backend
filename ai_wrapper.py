@@ -50,6 +50,9 @@ import os
 import openai
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+app = Flask(__name__)
+# allow all origins on the /api/* routes
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 
 # Initialise OpenAI client. The API key must be provided via the
@@ -91,8 +94,14 @@ def run_assistant(mos_code: str) -> str:
     return messages.data[0].content[0].text.value
 
 
-@app.route('/api/translate', methods=['POST'])
+@app.route('/api/translate', methods=['POST','GET'])
 def translate():
+    if request.method == 'GET':
+        code = request.args.get('code','').strip().upper()
+    else:
+        payload = request.get_json(force=True) or {}
+        code = str(payload.get('code', '')).strip().upper()
+    …
     """Endpoint for translating a military code via the AI assistant."""
     payload = request.get_json(force=True) or {}
     code = str(payload.get('code', '')).strip()
