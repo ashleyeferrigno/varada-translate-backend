@@ -96,28 +96,27 @@ def run_assistant(mos_code: str) -> str:
 
 @app.route('/api/translate', methods=['POST','GET'])
 def translate():
+    """Endpoint for translating a military code via the AI assistant."""
     if request.method == 'GET':
-        code = request.args.get('code','').strip().upper()
+        code = request.args.get('code', '').strip().upper()
     else:
         payload = request.get_json(force=True) or {}
         code = str(payload.get('code', '')).strip().upper()
-    …
-    """Endpoint for translating a military code via the AI assistant."""
-    payload = request.get_json(force=True) or {}
-    code = str(payload.get('code', '')).strip()
+
     if not code:
         return jsonify({"notFound": True})
+
     try:
         ai_reply = run_assistant(code)
     except Exception as exc:
         return jsonify({"notFound": True, "error": str(exc)})
 
-    # Updated fallback handling
     if not ai_reply or "no match" in ai_reply.lower() or len(ai_reply.strip()) < 40:
         return jsonify({"notFound": True})
 
     print(f"AI response: {ai_reply}")
     return jsonify({"reply": ai_reply})
+
 
 
 
