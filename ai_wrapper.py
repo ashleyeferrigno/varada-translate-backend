@@ -58,7 +58,7 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # Use the assistant ID from environment or fall back to a default.
 # This default corresponds to the assistant created by the user.
-DEFAULT_ASSISTANT_ID = "asst_9ldvYz8zGDJStpcVvBgEazPD"
+DEFAULT_ASSISTANT_ID = "asst_8B38DoipFqPGw7fx1xllFSPR"
 ASSISTANT_ID = os.environ.get("ASSISTANT_ID", DEFAULT_ASSISTANT_ID)
 
 
