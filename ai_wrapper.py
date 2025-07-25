@@ -104,11 +104,13 @@ def translate():
         # If any error occurs during the API call, return notFound
         # The front-end will handle this gracefully.
         return jsonify({"notFound": True, "error": str(exc)})
-    # Check for fallback phrase. If present, signal notFound.
-    fallback_phrase = "We’re still expanding our translator"
-    if fallback_phrase in ai_reply:
-        return jsonify({"notFound": True})
-    return jsonify({"reply": ai_reply})
+    # Check if reply is empty or junk
+if not ai_reply or "no match" in ai_reply.lower() or len(ai_reply.strip()) < 40:
+    return jsonify({"notFound": True})
+
+# Optional: log the reply to help debug in Render
+print(f"AI response: {ai_reply}")
+
 
 
 if __name__ == '__main__':
