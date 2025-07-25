@@ -101,15 +101,15 @@ def translate():
     try:
         ai_reply = run_assistant(code)
     except Exception as exc:
-        # If any error occurs during the API call, return notFound
-        # The front-end will handle this gracefully.
         return jsonify({"notFound": True, "error": str(exc)})
-    # Check if reply is empty or junk
-if not ai_reply or "no match" in ai_reply.lower() or len(ai_reply.strip()) < 40:
-    return jsonify({"notFound": True})
 
-# Optional: log the reply to help debug in Render
-print(f"AI response: {ai_reply}")
+    # Updated fallback handling
+    if not ai_reply or "no match" in ai_reply.lower() or len(ai_reply.strip()) < 40:
+        return jsonify({"notFound": True})
+
+    print(f"AI response: {ai_reply}")
+    return jsonify({"reply": ai_reply})
+
 
 
 
