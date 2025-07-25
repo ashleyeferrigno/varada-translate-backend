@@ -49,6 +49,8 @@ or the URL where this service is deployed.
 import os
 import openai
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 
 # Initialise OpenAI client. The API key must be provided via the
 # OPENAI_API_KEY environment variable. Do not hardcode your key here.
@@ -61,6 +63,8 @@ ASSISTANT_ID = os.environ.get("ASSISTANT_ID", DEFAULT_ASSISTANT_ID)
 
 
 app = Flask(__name__)
+CORS(app, origins="*")
+
 
 
 def run_assistant(mos_code: str) -> str:
